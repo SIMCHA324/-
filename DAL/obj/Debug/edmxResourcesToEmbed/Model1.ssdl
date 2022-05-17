@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="facialDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="arrivalTime">
+    <Key>
+      <PropertyRef Name="idArrivalTime" />
+    </Key>
+    <Property Name="idArrivalTime" Type="int" Nullable="false" />
+    <Property Name="idChild" Type="int" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="arrivalTime" Type="time" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="childrens">
+    <Key>
+      <PropertyRef Name="IdChild" />
+    </Key>
+    <Property Name="IdChild" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="class" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="idParent1" Type="int" Nullable="false" />
+    <Property Name="idParent2" Type="int" Nullable="false" />
+    <Property Name="idInstitution" Type="int" Nullable="false" />
+    <Property Name="tzChaild" Type="nchar" MaxLength="9" Nullable="false" />
+    <Property Name="image" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lnstitution">
+    <Key>
+      <PropertyRef Name="idInstitution" />
+    </Key>
+    <Property Name="idInstitution" Type="int" Nullable="false" />
+    <Property Name="nameInstitution" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="parent">
+    <Key>
+      <PropertyRef Name="idParent" />
+    </Key>
+    <Property Name="idParent" Type="int" Nullable="false" />
+    <Property Name="firstNameParent" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastNameParent" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="tel" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ArrivalTime_ToTable">
+    <End Role="childrens" Type="Self.childrens" Multiplicity="1" />
+    <End Role="arrivalTime" Type="Self.arrivalTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="childrens">
+        <PropertyRef Name="IdChild" />
+      </Principal>
+      <Dependent Role="arrivalTime">
+        <PropertyRef Name="idChild" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Childrens_ToTable">
+    <End Role="parent" Type="Self.parent" Multiplicity="1" />
+    <End Role="childrens" Type="Self.childrens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parent">
+        <PropertyRef Name="idParent" />
+      </Principal>
+      <Dependent Role="childrens">
+        <PropertyRef Name="idParent1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Childrens_ToTable_1">
+    <End Role="lnstitution" Type="Self.lnstitution" Multiplicity="1" />
+    <End Role="childrens" Type="Self.childrens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lnstitution">
+        <PropertyRef Name="idInstitution" />
+      </Principal>
+      <Dependent Role="childrens">
+        <PropertyRef Name="idInstitution" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Childrens_ToTable_2">
+    <End Role="parent" Type="Self.parent" Multiplicity="1" />
+    <End Role="childrens" Type="Self.childrens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="parent">
+        <PropertyRef Name="idParent" />
+      </Principal>
+      <Dependent Role="childrens">
+        <PropertyRef Name="idParent2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="facialDBModelStoreContainer">
+    <EntitySet Name="arrivalTime" EntityType="Self.arrivalTime" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="childrens" EntityType="Self.childrens" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lnstitution" EntityType="Self.lnstitution" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="parent" EntityType="Self.parent" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ArrivalTime_ToTable" Association="Self.FK_ArrivalTime_ToTable">
+      <End Role="childrens" EntitySet="childrens" />
+      <End Role="arrivalTime" EntitySet="arrivalTime" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Childrens_ToTable" Association="Self.FK_Childrens_ToTable">
+      <End Role="parent" EntitySet="parent" />
+      <End Role="childrens" EntitySet="childrens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Childrens_ToTable_1" Association="Self.FK_Childrens_ToTable_1">
+      <End Role="lnstitution" EntitySet="lnstitution" />
+      <End Role="childrens" EntitySet="childrens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Childrens_ToTable_2" Association="Self.FK_Childrens_ToTable_2">
+      <End Role="parent" EntitySet="parent" />
+      <End Role="childrens" EntitySet="childrens" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
